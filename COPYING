@@ -1,3 +1,155 @@
+Copyright (c) 2024, Salvatore Sanfilippo <antirez@gmail.com>
+All rights reserved.
+
+This software is copyrighted under the BSD 3-Clause license
+as defined here: https://opensource.org/license/bsd-3-clause
+This represents a change from the original ISC license.
+This change was explicitly allowed by the original author
+in the following email.
+
+# Permission to change Copyright
+````
+Delivered-To: heimbigner.dennis@gmail.com
+Received: by 2002:a05:6f02:310:b0:77:e213:63b7 with SMTP id 16csp5894388rcf;
+        Sun, 10 Nov 2024 10:16:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHWtpUXpMbsa5h3tkByN4CVv4QovtQ/yWfq+OaxRN1xG6FYSy6q+Qo1hGKlgl3o7Izm+cj7
+X-Received: by 2002:a05:6214:53c9:b0:6cd:6ad4:1fc9 with SMTP id 6a1803df08f44-6d39e1ea4efmr138996156d6.44.1731262573074;
+        Sun, 10 Nov 2024 10:16:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1731262573; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gcPvZWKqPlW7vbFOY3TKl3sKc6YEgleBYKnE9fGcnH1N/EcLU3nObsKvgR8EvidQ+U
+         9tktNejIzjFntbAfZ6OvkbqE8ZKUEwXLzEpdFw8zo/509YGzgz7xMzsjik9FoHbIdXZx
+         Wzd9qALP+KpDVieVLV1nWITK1VQEYtWaaN+h5FpVBCLzarcdivYFf01PAGxzS6aMUNRV
+         L+BHvm0gXub5gVWKeLX6b2DsZK98fMlrXdL+aEBy6o6AlJjAvzC5DrUqKZ80KPrrthTW
+         l7GPBxEOMjtajyR/lxK54c2b6+cFN1u4d1OJa4xhBYKWOOkq/5bFOa4+YxmP5pqtHmB1
+         dQ/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=destinations:list-unsubscribe-post:list-unsubscribe:list-post
+         :list-archive:list-id:precedence:content-transfer-encoding
+         :mime-version:subject:references:in-reply-to:message-id:cc:to
+         :reply-to:from:date:dkim-signature;
+        bh=LnCnJFm41EUpY00vHQ2sEn7paOsEyd46rz7S5lq7Kho=;
+        fh=i71tmU0ERUi6KHToJYuKCX/bpo04ghZaC+FPXnncn+Y=;
+        b=QIxJaIq6gD8rr+NNjkfe863MYV+yeaDjeVj/4NAIYHWQhj+IBLYva7R4aNeleQF8Cb
+         UCYq778yfpwxaJme8GWuP5HOhtWpd38RxKdBmUzE73SwyoK2W9wEoRcYBeJtM6dN5Qty
+         pPI5DcTBHODm5jJuZ7b3tVypC0TOETct8vLx/crqcVfiCBQbdHJSXN02fIIX6gPUC1yW
+         /bYFYjRMsSi3XCpJRuQ3v98BeSKlAnhyrAWQFWaHiLLfrQ1M8vd1bTcy9ZBydbL47jAe
+         PxRWzteJeY+BcubpS5/Z5J5v3Tti7EAERy1jDAVx60yf/BabgsDD7+rLiNCXjqwValV/
+         DheA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@github.com header.s=pf2023 header.b=hr1rV7JN;
+       spf=pass (google.com: domain of noreply@github.com designates 192.30.252.208 as permitted sender) smtp.mailfrom=noreply@github.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=github.com
+Return-Path: <noreply@github.com>
+Received: from out-25.smtp.github.com (out-25.smtp.github.com. [192.30.252.208])
+        by mx.google.com with ESMTPS id 6a1803df08f44-6d396666ae4si92853396d6.387.2024.11.10.10.16.12
+        for <heimbigner.dennis@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Nov 2024 10:16:13 -0800 (PST)
+Received-SPF: pass (google.com: domain of noreply@github.com designates 192.30.252.208 as permitted sender) client-ip=192.30.252.208;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@github.com header.s=pf2023 header.b=hr1rV7JN;
+       spf=pass (google.com: domain of noreply@github.com designates 192.30.252.208 as permitted sender) smtp.mailfrom=noreply@github.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=github.com
+Received: from github.com (hubbernetes-node-93b324b.ash1-iad.github.net [10.56.171.10])
+	by smtp.github.com (Postfix) with ESMTPA id BEF7D140723
+	for <heimbigner.dennis@gmail.com>; Sun, 10 Nov 2024 10:16:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=github.com;
+	s=pf2023; t=1731262572;
+	bh=LnCnJFm41EUpY00vHQ2sEn7paOsEyd46rz7S5lq7Kho=;
+	h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:List-ID:
+	 List-Archive:List-Post:List-Unsubscribe:List-Unsubscribe-Post:
+	 From;
+	b=hr1rV7JNyB5KvXT4DFU5NNiiAhxocVetqhM8A/+qoE3V+QmLJLVRmjZmLZacn7xzS
+	 AL7szk6ULBbsTrgPm7VmlAoGwXHZIUEO5QeF2qRHlRZOze9btJepxClQ2Wh5jQpFNR
+	 046UTcwOhKFEgRHfcHrhGirYGvQXFqikNc3VmoQU=
+Date: Sun, 10 Nov 2024 10:16:12 -0800
+From: vmxdev <notifications@github.com>
+Reply-To: vmxdev/tkvdb <reply+AAG47WZCQ4WENJNHKLEBMTGFHTMWZEVBNHHJ3B2GQQ@reply.github.com>
+To: vmxdev/tkvdb <tkvdb@noreply.github.com>
+Cc: Dennis Heimbigner <heimbigner.dennis@gmail.com>, 
+ Author <author@noreply.github.com>
+Message-ID: <vmxdev/tkvdb/issues/11/2466833351@github.com>
+In-Reply-To: <vmxdev/tkvdb/issues/11@github.com>
+References: <vmxdev/tkvdb/issues/11@github.com>
+Subject: Re: [vmxdev/tkvdb] Explicit License  (Issue #11)
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_6730f86cbcdf5_29e8d1978696e8";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Precedence: list
+X-GitHub-Sender: vmxdev
+X-GitHub-Recipient: DennisHeimbigner
+X-GitHub-Reason: author
+List-ID: vmxdev/tkvdb <tkvdb.vmxdev.github.com>
+List-Archive: https://github.com/vmxdev/tkvdb
+List-Post: <mailto:reply+AAG47WZCQ4WENJNHKLEBMTGFHTMWZEVBNHHJ3B2GQQ@reply.github.com>
+List-Unsubscribe: <mailto:unsub+AAG47WZCQ4WENJNHKLEBMTGFHTMWZEVBNHHJ3B2GQQ@reply.github.com>,
+ <https://github.com/notifications/unsubscribe/one-click/AAG47W6PDHCUPUQG6EWOWYLZ76PGZANCNFSM6AAAAABRMWV2IY>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-Auto-Response-Suppress: All
+destinations: heimbigner.dennis@gmail.com
+X-GitHub-Recipient-Address: heimbigner.dennis@gmail.com
+
+
+----==_mimepart_6730f86cbcdf5_29e8d1978696e8
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+
+No, I will not fork, rename and relicense the library.
+I don&#39;t need it.
+**You** can do it.
+I meant that I can give special permissions if it is really necessary.
+You can even take the library and remove any mention of authorship, I rea=
+lly don=E2=80=99t care.
+
+-- =
+
+Reply to this email directly or view it on GitHub:
+https://github.com/vmxdev/tkvdb/issues/11#issuecomment-2466833351
+You are receiving this because you authored the thread.
+
+Message ID: &lt;vmxdev/tkvdb/issues/11/2466833351@github.com&gt;
+
+----==_mimepart_6730f86cbcdf5_29e8d1978696e8
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<p></p>
+<p dir=3D"auto">No, I will not fork, rename and relicense the library.<br=
+>
+I don't need it.<br>
+<strong>You</strong> can do it.<br>
+I meant that I can give special permissions if it is really necessary.<br=
+>
+You can even take the library and remove any mention of authorship, I rea=
+lly don=E2=80=99t care.</p>
+
+<p style=3D"font-size:small;-webkit-text-size-adjust:none;color:#666;">&m=
+dash;<br />Reply to this email directly, <a href=3D"https://github.com/vm=
+xdev/tkvdb/issues/11#issuecomment-2466833351">view it on GitHub</a>, or <=
+a href=3D"https://github.com/notifications/unsubscribe-auth/AAG47W7HPKV37=
+3RK2WJ5BGTZ76PGZAVCNFSM6AAAAABRMWV2I2VHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3=
+TUHMZDINRWHAZTGMZVGE">unsubscribe</a>.<br />You are receiving this becaus=
+e you authored the thread.<img src=3D"https://github.com/notifications/be=
+acon/AAG47W2Y6WEBHO3BGNZSYZLZ76PGZA5CNFSM6AAAAABRMWV2I2WGG33NNVSW45C7OR4X=
+AZNMJFZXG5LFINXW23LFNZ2KUY3PNVWWK3TUL5UWJTUTBDR4O.gif" height=3D"1" width=
+=3D"1" alt=3D"" /><span style=3D"color: transparent; font-size: 0; displa=
+y: none; visibility: hidden; overflow: hidden; opacity: 0; width: 0; heig=
+ht: 0; max-width: 0; max-height: 0; mso-hide: all">Message ID: <span>&lt;=
+vmxdev/tkvdb/issues/11/2466833351</span><span>@</span><span>github</span>=
+<span>.</span><span>com&gt;</span></span></p>
+
+----==_mimepart_6730f86cbcdf5_29e8d1978696e8--
+````
+
+# Original Copyright
+````
 Copyright (c) 2017, Salvatore Sanfilippo <antirez@gmail.com>
 All rights reserved.
 
@@ -7,3 +159,4 @@ Redistribution and use in source and binary forms, with or without modification,
     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+````
